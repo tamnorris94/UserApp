@@ -19,35 +19,37 @@ const AddUser = (props: any) => {
     const nameInputRef = useRef<HTMLInputElement>(null);
     const ageInputRef = useRef<HTMLInputElement>(null);
 
-    const [enteredUsername, setEnteredUsername] = useState('');
-    const [enteredUserAge, setEnteredAge] = useState('');
+    //const [enteredUsername, setEnteredUsername] = useState('');
+    //const [enteredUserAge, setEnteredAge] = useState('');
     const [error, setError] = useState<IError | null | undefined>();
 
-    const usernameChangeHandler = (event: any) => {
-        setEnteredUsername(event.target.value);
-    };
+    // const usernameChangeHandler = (event: any) => {
+    //     setEnteredUsername(event.target.value);
+    // };
 
-    const ageChangeHandler = (event: any) => {
-        setEnteredAge(event.target.value);
-    };
+    // const ageChangeHandler = (event: any) => {
+    //     setEnteredAge(event.target.value);
+    // };
 
   const addUserHandler = (event: any) => {
     event.preventDefault();
+    let enteredName = '';
+    let enteredAge = '';
     if(nameInputRef.current){
-      const enteredName = nameInputRef.current.value;
+      enteredName = nameInputRef.current.value;
     }
     if(ageInputRef.current){
-      const enteredAge = ageInputRef.current.value;
+      enteredAge = ageInputRef.current.value;
     }
      
-    if(enteredUsername.trim().length === 0 ){
+    if(enteredName.trim().length === 0 ){
       setError({
         errorTitle: 'Invalid Username', 
         errorMessage: 'Username must be more than 4 characters',
       })
       return;
     }
-    if (enteredUserAge.trim().length === 0 || +enteredUserAge < 10 || +enteredUserAge > 110){
+    if (enteredAge.trim().length === 0 || +enteredAge < 10 || +enteredAge > 110){
       setError({
         errorTitle: 'Invalid Age', 
         errorMessage: 'Please enter an age between 10 and 110',
@@ -56,16 +58,24 @@ const AddUser = (props: any) => {
     }
 
     const enteredUser: IUser = {
-      username: enteredUsername,
-      age: enteredUserAge,
+      username: enteredName,
+      age: enteredAge,
       id: Math.random().toString()
     }
 
     const userID = Math.random().toString();
 
     props.onAddUser(enteredUser);
-    setEnteredUsername('');
-    setEnteredAge('');
+    if(nameInputRef.current){
+      nameInputRef.current.value ='';
+    }
+    if(ageInputRef.current){
+      ageInputRef.current.value ='';
+    }
+   
+    
+    //setEnteredUsername('');
+    //setEnteredAge('');
   };
 
   const errorHandler = ()=> {
@@ -83,15 +93,15 @@ const AddUser = (props: any) => {
       <form onSubmit={addUserHandler}>
         <label htmlFor="username">Username</label>
         <input 
-          value={enteredUsername} 
+          //value={enteredUsername} 
           id="username" type="text" 
-          onChange={usernameChangeHandler}
+          //onChange={usernameChangeHandler}
           ref={nameInputRef}/>
         <label htmlFor="age">Age</label>
         <input 
-          value={enteredUserAge} 
+          //value={enteredUserAge} 
           id="age" type="number" 
-          onChange={ageChangeHandler}
+          //onChange={ageChangeHandler}
           ref={ageInputRef}/>
         <Button type="submit">Add User</Button>
       </form>
